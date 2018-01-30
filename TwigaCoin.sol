@@ -1,9 +1,8 @@
-
 pragma solidity ^0.4.18;
 
 /**
- * @title TwigaCoin
- * @dev A ERC20 compliant coin
+ * @title TwigaContract
+ * @dev A ERC20 compliant contract tokens
  * @author Felix Cheruiyot <felix.cheruiyot@kenyaapps.net>
  */
 contract ERC20 {
@@ -18,26 +17,25 @@ contract ERC20 {
     function approve(address spender, uint256 value) public returns (bool);
 }
 
-contract TwigaCoin is ERC20 {
-    string public constant name = "TwigaCoin";
-    string public constant symbol = "TC";
-    uint256 public constant smallestUnit = 2;
+contract TwigaContract is ERC20 {
+    string public name;
     uint256 supply;
     mapping (address => uint) public balances;
     mapping (address => mapping (address => uint256)) internal allowed;
     
     /*
-     * Initialize coin with name, symbol and initial supply
-     * Fund the creator with all the coins
+     * Initialize contract with name
+     * Fund the creator with all the tokens
      */
-    function TwigaCoin(uint256 _supply) public {
-        supply = _supply * (10**smallestUnit);
+    function TwigaContract(uint256 _supply, string _name) public {
+        name = _name;
+        supply = _supply;
         balances[msg.sender] = _supply;
     }
     
     
     /*
-     * Show total number of coins initially supplied
+     * Show total number of tokens initially supplied
      */
     function totalSupply()  public view returns (uint256) {
         return supply;
@@ -51,7 +49,7 @@ contract TwigaCoin is ERC20 {
     }
     
     /*
-     * Show total number of coins initially supplied
+     * Transfer funds within addresses
      */
     function transfer(address to, uint256 value) public returns (bool) {
         require(balances[msg.sender] > value);
@@ -93,4 +91,3 @@ contract TwigaCoin is ERC20 {
         return true;
     }
 }
-
